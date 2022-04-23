@@ -2,18 +2,23 @@
 
 DirectoryInfo di = new DirectoryInfo(path);
 
-if (di.Exists)
+try
 {
-    foreach (FileInfo file in di.GetFiles().Where(x => (DateTime.Now - x.LastWriteTime).TotalMinutes > 30))
+    if (di.Exists)
     {
-        file.Delete();
+        foreach (FileInfo file in di.GetFiles().Where(x => (DateTime.Now - x.LastWriteTime).TotalMinutes > 30))
+        {
+            file.Delete();
+        }
+        foreach (DirectoryInfo dir in di.GetDirectories().Where(x => (DateTime.Now - x.LastWriteTime).TotalMinutes > 30))
+        {
+            dir.Delete(true);
+        }
     }
-    foreach (DirectoryInfo dir in di.GetDirectories().Where(x => (DateTime.Now - x.LastWriteTime).TotalMinutes > 30))
-    {
-        dir.Delete(true);
-    }
+    else
+        Console.WriteLine("Некорректный путь!");
 }
-else
-    Console.WriteLine("Некорректный путь!");
-
-
+catch (Exception ex)
+{
+    Console.WriteLine($"Ошибка! {ex.Message}");
+}
