@@ -4,11 +4,11 @@ DirectoryInfo di = new DirectoryInfo(path);
 
 if (di.Exists)
 {
-    foreach (FileInfo file in di.GetFiles().Where(x => (DateTime.Now - x.LastWriteTime).TotalMinutes > 1))
+    foreach (FileInfo file in di.GetFiles().Where(x => (DateTime.Now - x.LastWriteTime).TotalMinutes > 30))
     {
         file.Delete();
     }
-    foreach (DirectoryInfo dir in di.GetDirectories().Where(x => (DateTime.Now - x.LastWriteTime).TotalMinutes > 1))
+    foreach (DirectoryInfo dir in di.GetDirectories().Where(x => (DateTime.Now - x.LastWriteTime).TotalMinutes > 30))
     {
         dir.Delete(true);
     }
